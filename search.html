@@ -1,0 +1,101 @@
+<html>  
+<head>
+	<script src="angular/angular.min.js"> </script>
+</head>
+
+<style>
+
+body,html{
+height:100%;
+}
+body {
+ background-image:url(/search.jpg) ;
+ 
+ background-color: #cccccc;
+background-repeat: no-repeat ;
+   height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  color:#000000;
+font-size: 30px;
+font-weight: bold;
+background-size: cover;
+}
+
+h1{
+font-family: "Times New Roman", Times, serif;
+font-style: normal;
+font-size: 40px;
+font-weight: bold;
+color:#000000;
+}
+p{
+font-family: "Times New Roman", Times, serif;
+font-style: normal;
+font-size: 25px;
+font-weight: bold;
+color:#000000;
+}
+
+
+</style>
+<script> var myModule = angular.module("myApp",[])  </script>
+<body ng-app="myApp">  
+<h3> SUPPLIER-RETAILER SYSTEM </h3> 
+
+
+
+<form ng-controller='appController' ng-submit="send()">
+
+
+
+<div align="center">
+SUPPLIER_ID  <input type="text" id="sid" name="sid" ng-model="data.sid" /> <br />
+<h1 ng-bind="data.sid"></h1>
+<input type="submit" value="Submit">  
+</div>
+   
+<div><pre>{{response.data}}</pre>  </div>
+
+
+</form>  
+
+
+<div align="center">
+<a href="/index.html">Back</a>
+</div>
+
+<script>
+	 myModule.controller ("appController",
+        function appController($scope, $http) {
+            /*$http directive is used to communicate to the server */
+            $scope.data = {}
+            $scope.response = {}
+			
+            $scope.send = function () {
+                /*executed when submit is clicked*/          
+				console.log($scope.data.sname);
+                var posting = $http({
+			/*posting to /process_get  */
+                    method: 'GET',
+                    url: '/search',
+                    params: $scope.data,
+			/*posting to /process_post*/
+                    //method: 'POST',
+                   // url: '/process_post',
+                   // data: $scope.data,
+                    
+                }).then (function (response) {
+                      console.log(response);
+                    $scope.response.data = response.data;
+                },function (error){
+					console.log(error);
+			});
+            }
+        });
+    </script>
+
+</body>  
+</html>  

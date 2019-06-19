@@ -1,0 +1,120 @@
+<html>
+<head>
+	<script src="angular/angular.min.js"> </script>
+</head>
+<script> var myModule = angular.module("myApp",[])  </script>
+<style>
+
+body,html{
+height:100%;
+}
+body {
+ background-image:url(/about.jpg) ;
+ 
+ background-color: #cccccc;
+background-repeat: no-repeat ;
+   height: 100%; 
+font-style: italic;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  color:#000000;
+font-size: 20px;
+font-weight: bold;
+}
+
+h1{
+font-family: "Times New Roman", Times, serif;
+font-style: normal;
+font-size: 40px;
+font-weight: bold;
+color:#000000;
+}
+p{
+font-family: "Times New Roman", Times, serif;
+font-style: italic;
+font-size: 25px;
+font-weight: bold;
+color:#000000;
+}
+
+
+</style>
+<body ng-app="myApp">
+    <form ng-controller='appController' ng-submit="send()">
+      <!--send() function from the controller is called on form submission -->
+     
+	<br><br>
+	<div align="center">
+	SUPPLIER_ID: <br>
+        <input type="text" id="sid" ng-model="data.sid" /> <br />
+	 <h1 ng-bind="data.sid"></h1>
+	</div>
+
+        
+	<div align="center">
+	SUPPLIER_NAME: <br>
+         <input type="text" id="sname" ng-model="data.sname" /> <br /> <br />     
+	<h1 ng-bind="data.sname"></h1>   
+	</div>
+
+	<div align="center">
+	RETAILER_ID: <br>
+        <input type="text" id="rid" ng-model="data.rid" /> <br />
+	<h1 ng-bind="data.rid"></h1>
+	</div>
+	
+
+	<div align="center">
+	RETAILER_NAME: <br>
+        <input type="text" id="rname" ng-model="data.rname" /> <br />
+	<h1 ng-bind="data.rname"></h1>
+	</div>
+
+
+	<div align="center">
+        <input type="submit" ng-click="Submit">
+	<div><pre>{{response.data}}</pre>  </div>
+	</div>
+   
+
+ </form>
+
+ <div align="center">
+<a href="index.html">Back</a>
+</div>
+   
+  <script>
+	 myModule.controller ("appController",
+        function appController($scope, $http) {
+            /*$http directive is used to communicate to the server */
+            $scope.data = {}
+            $scope.response = {}
+			
+            $scope.send = function () {
+                /*executed when submit is clicked*/          
+				console.log($scope.data.name);
+                var posting = $http({
+			/*posting to /process_get  */
+                    //method: 'GET',
+                    //url: '/process_get',
+                    //params: $scope.data,
+			/*posting to /process_post*/
+                    method: 'POST',
+                    url: '/process_post',
+                    data: $scope.data,
+                    
+                }).then (function (response) {
+                    /*executed when server responds back*/
+                    console.log(response);
+                    $scope.response.data = response.data;
+                },function (error){
+					console.log(error);
+			});
+            }
+        });
+    </script>
+</body>
+</html>
+
+ 
